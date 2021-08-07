@@ -25,7 +25,7 @@ def create_user():
 
 @app.route("/result")
 def show_user():
-    return render_template('index.html-2')
+    return render_template('result.html')
 
 if __name__ == "__main__":
         app.run(debug=True)   
