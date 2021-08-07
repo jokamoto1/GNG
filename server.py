@@ -5,29 +5,27 @@ app.secret_key = 'adfasfdsafsdfas'
 
 @app.route('/')
 def index():
-    if 'guessNum' not in session:
-        session['guessNum'] = random.randint(1,100)
-    print(session['guessNum'])  
+    if 'name' not in session:
+        session['name'] = ''
+    if 'location' not in session:
+        session['location'] = ''
+    if 'language' not in session:
+        session['language'] = ''
+    if 'comments' not in session:
+        session['comments'] = ''
     return render_template('index.html')
-    
 
-@app.route('/guess', methods=['POST'])
-def guess():
-    try:
-        session['userNum'] = int(request.form['userNum'])
-        if session['guessNum'] == session['userNum']:
-            session['msg'] = f"<div>CORRECT! </div>"            
-        elif session['guessNum'] > session['userNum']:
-            session['msg'] = f"<div>TOO LOW! </div>"
-        elif session['guessNum'] < session['userNum']:
-            session['msg'] = f"<div>TOO HIGH! </div>"
-    except Exception:
-        session['msg'] = "ERROR!"
-    return redirect('/')
-@app.route('/destroy')
-def destroy():
-    session['msg'] = f"<div>NUMBER AS BEEN RESET! </div>"
-    del session['guessNum']
-    return redirect('/')
+@app.route("/create_user", methods=['POST'])  
+def create_user():
+    session['name'] = request.form['name']
+    session['location'] = request.form['location']
+    session['language'] = request.form['language']
+    session['comments'] = request.form['comments']
+    return redirect("result")
+
+@app.route("/result")
+def show_user():
+    return render_template('index.html-2')
+
 if __name__ == "__main__":
         app.run(debug=True)   
